@@ -1,0 +1,134 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+
+<link rel="import" href="./intensity-choice.html">
+
+<dom-module id="main-form">
+
+  <template>
+
+	<style is="custom-style" include="iron-flex iron-flex-alignment">
+    <style>
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      h1 {
+        font-size: 22px;
+        margin: 16px 0;
+        color: #212121;
+      }
+	  paper-item {
+		border: 1px solid #e5e5e5;
+	  }
+	  .centered {
+		margin: auto;
+	  }
+	  .choices {
+		width:600px;
+	  }
+	  .all {
+		width: 800px;
+		margin: auto;
+	  }
+    </style>
+
+	<form is="iron-form" id="form" method="post" action="/form/handler">
+	  <div class="layout vertical all">
+		<h2>Safewords</h2>
+
+		<paper-item>
+		  <iron-label>
+			List safewords and their meaning (the house safeword is "SAFEWORD", which means "stop	
+	everything" and is a call for help from outside the scene):
+			<paper-textarea> </paper-textarea>
+		  </iron-label>
+		</paper-item>
+
+		<paper-item>
+		  <iron-label>
+			What nonverbal safe signals, if any, will be used?  Note that if a gag is used this is necessary.
+			Please notify the DM of your non-verbal safe signal.
+			<paper-textarea> </paper-textarea>
+		  </iron-label>
+		</paper-item>
+
+		<paper-item>
+		  <paper-item-body two-line>
+			<paper-checkbox active="{{safeword-explain}}">
+			  Do you have a history being unwilling/unable to use your safewords for any reason? 
+			</paper-checkbox>
+			<div secondary>
+			  <iron-label 
+				Please explain
+				<paper-textarea> </paper-textarea>
+			  </iron-label>
+			</div>
+		  </paper-item-body>
+		</paper-item>
+
+		<h2>Bondage</h2>
+		<div class="layout horizontal choices">
+		  <div class="flex layout vertical">
+			<template is="dom-repeat" items="[[bondageItems]]">
+			  <label class="centered" id="[[item.id]]">[[item.text]]</label>
+			  <intensity-choice></intensity-choice>
+			</template>
+		  </div>
+		</div>
+
+		<paper-button>Submit</paper-button>
+	  </div>
+	</form>
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'main-form',
+	  properties: {
+		safewordExplain: Boolean,
+		bondageItems: {
+		  type: Array,
+		  value: function() {
+			return [
+			  {'id': 'self-bondage', 'text': 'Bondage to self'},
+			  {'id': 'object-bondage', 'text': 'Bondage to an object'},
+			  {'id': 'harness', 'text': 'Harnesses'},
+			  {'id': 'rope-restraint', 'text': 'Restraint with Rope'},
+			  {'id': 'cuff-restraint', 'text': 'Restraint with Cuffs'},
+			  {'id': 'gag', 'text': 'Gags'},
+			  {'id': 'blindfold', 'text': 'Blindfolds'},
+			  {'id': 'hood', 'text': 'Hoods'},
+			  {'id': 'partial-suspension', 'text': 'Partial suspension'},
+			  {'id': 'full-suspension', 'text': 'Full Suspension'},
+			  {'id': 'inversion', 'text': 'Inversion'},
+			  {'id': 'collar', 'text': 'Collars'},
+			  {'id': 'leashes', 'text': 'Leashes'},
+			];
+		  },
+		
+		},
+	  },
+    });
+
+  </script>
+
+</dom-module>
